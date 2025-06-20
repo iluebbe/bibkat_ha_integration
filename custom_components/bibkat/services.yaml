@@ -1,0 +1,35 @@
+renew_all:
+  name: "Alle Medien verlängern"
+  description: "Verlängert alle verlängerbaren Medien"
+  fields:
+    account_id:
+      name: "Konto-ID"
+      description: "Optionale Konto-ID für gezieltes Verlängern (leer für alle Konten)"
+      example: "account_123"
+      selector:
+        text:
+
+renew_media:
+  name: "Medium verlängern"
+  description: "Verlängert ein einzelnes Medium"
+  target:
+    entity:
+      integration: bibkat
+      domain: button
+  fields:
+    media_id:
+      name: "Medien-ID"
+      description: "Die ID des zu verlängernden Mediums (optional wenn Entität ausgewählt)"
+      example: "123456"
+      selector:
+        text:
+    account_id:
+      name: "Konto-ID"
+      description: "Optionale Konto-ID (wenn mehrere Konten existieren)"
+      example: "account_123"
+      selector:
+        text:
+
+test_notification:
+  name: "Test-Benachrichtigung"
+  description: "Sendet eine Test-Benachrichtigung"

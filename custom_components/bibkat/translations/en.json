@@ -1,0 +1,205 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Select Library",
+        "description": "Enter your BibKat library URL.\\n\\n{bibkat_info}\\n\\n{example_urls}",
+        "data": {
+          "url": "Library URL"
+        },
+        "data_description": {
+          "url": "e.g. https://www.bibkat.de/boehl/ or https://www.bibkat.de/kreuth/"
+        }
+      },
+      "account": {
+        "title": "Add Account {account_number}",
+        "description": "Enter credentials for {library_name}.",
+        "data": {
+          "username": "Reader number",
+          "password": "Password",
+          "alias": "Account name (optional)",
+          "add_another_account": "Add another account"
+        },
+        "data_description": {
+          "alias": "e.g. Main account, Child account, etc."
+        }
+      },
+      "features": {
+        "title": "Additional Features",
+        "description": "Choose which additional features to set up.\n\n{template_info}\n\n{dashboard_info}\n\n**Note**: {template_note}\n\n{dashboard_note}",
+        "data": {
+          "template_sensors": "Create template sensors",
+          "dashboard": "Create discovery dashboard"
+        },
+        "data_description": {
+          "template_sensors": "30 slot sensors for advanced dashboards",
+          "dashboard": "Pre-configured dashboard with all media"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "invalid_auth": "Invalid authentication",
+      "invalid_url": "Invalid URL - must be a bibkat.de address",
+      "unknown": "Unexpected error",
+      "already_configured": "This library is already configured",
+      "template_creation_failed": "Failed to create template sensors",
+      "dashboard_creation_failed": "Failed to create dashboard"
+    },
+    "abort": {
+      "already_configured": "This library is already configured"
+    },
+    "error": {
+      "no_data": "No data available. Please wait for the integration to load data.",
+      "invalid_auth": "Invalid authentication"
+    }
+  },
+  "options": {
+    "step": {
+      "menu": {
+        "title": "BibKat Options",
+        "description": "What would you like to configure?",
+        "menu_options": {
+          "accounts": "Manage accounts",
+          "notifications": "Notifications",
+          "features": "Additional features"
+        }
+      },
+      "accounts": {
+        "title": "Manage Accounts",
+        "description": "{info}",
+        "data": {
+          "selected_account": "Select family account"
+        },
+        "data_description": {
+          "no_unconfigured": "No unconfigured family accounts found. All family members are already configured.",
+          "select_prompt": "Select a family account to add credentials:",
+          "none_option": "Do not add account",
+          "account_label": "{alias} ({account_id}) - {media_count} media, {reservation_count} reservations"
+        }
+      },
+      "add_credentials": {
+        "title": "Add Credentials",
+        "description": "{info}",
+        "data": {
+          "password": "Password",
+          "alias": "Account name (optional)"
+        },
+        "data_description": {
+          "prompt": "Enter the password for account {account}:",
+          "success": "Account {username} ({alias}) successfully added!",
+          "default_alias": "Reader {account}"
+        }
+      },
+      "notifications": {
+        "title": "Notification Settings",
+        "description": "Configure when and how you want to be notified.",
+        "data": {
+          "notification_service": "Notification service",
+          "due_soon_days": "Days before due date for reminder",
+          "notify_overdue": "Notify for overdue items",
+          "notify_renewal": "Notify for renewal results",
+          "notify_high_balance": "Notify for high balance",
+          "balance_threshold": "Balance threshold (EUR)",
+          "use_browser": "Use browser-based extraction"
+        }
+      },
+      "features": {
+        "title": "Additional Features",
+        "description": "{template_status}\n\nChoose which additional features to set up.\n\n{template_info}\n\n{dashboard_info}\n\n**Note**: {template_note}\n\n{dashboard_note}",
+        "data": {
+          "template_sensors": "Create template sensors",
+          "dashboard": "Create discovery dashboard"
+        },
+        "data_description": {
+          "template_sensors": "30 slot sensors for advanced dashboards",
+          "dashboard": "Pre-configured dashboard with all media"
+        }
+      }
+    },
+    "error": {
+      "template_creation_failed": "Failed to create template sensors",
+      "dashboard_creation_failed": "Failed to create dashboard"
+    }
+  },
+  "device": {
+    "library": "Library",
+    "library_account": "Library Account", 
+    "family_account": "Family Account",
+    "family_members": "Family Members"
+  },
+  "entity": {
+    "sensor": {
+      "borrowed_media": {
+        "name": "Borrowed Media"
+      },
+      "balance": {
+        "name": "Balance"
+      },
+      "all_borrowed_media": {
+        "name": "All Borrowed Media"
+      },
+      "reservations": {
+        "name": "Reservations"
+      },
+      "account_reservations": {
+        "name": "{account} Reservations"
+      },
+      "unconfigured_account": {
+        "name": "{account} Borrowed Media"
+      }
+    }
+  },
+  "notifications": {
+    "renewal_success": "Media '{title}' was renewed until {due_date}",
+    "renewal_failed": "Media '{title}' could not be renewed: {message}",
+    "renewal_unknown_error": "Unknown error",
+    "renewal_title": "Library Renewal",
+    "test_no_service": "No notification service configured for this library",
+    "test_title": "BibKat Test Notification",
+    "cannot_renew": "'{title}' cannot be renewed yet.",
+    "renewable_from": "Renewable from: {date}",
+    "renewable_in_days": " (in {days} days)",
+    "cannot_renew_title": "BibKat - Renewal not yet possible",
+    "all_renewed": "All {count} media successfully renewed",
+    "some_renewed": "{renewed} media renewed, {failed} failed",
+    "all_failed": "Renewal failed for {failed} media",
+    "no_renewable": "No renewable media found"
+  },
+  "services": {
+    "renew_all": {
+      "name": "Renew All Media",
+      "description": "Renews all renewable media",
+      "fields": {
+        "account_id": {
+          "name": "Account ID",
+          "description": "Optional account ID for targeted renewal (empty for all accounts)"
+        }
+      }
+    },
+    "renew_media": {
+      "name": "Renew Media",
+      "description": "Renews a single media item",
+      "fields": {
+        "media_id": {
+          "name": "Media ID",
+          "description": "The ID of the media to renew"
+        },
+        "account_id": {
+          "name": "Account ID",
+          "description": "Account ID of the media (optional if unique)"
+        }
+      }
+    },
+    "test_notification": {
+      "name": "Send Test Notification",
+      "description": "Sends a test notification for the configured library",
+      "fields": {
+        "library_url": {
+          "name": "Library URL",
+          "description": "Optional library URL (uses first configured if empty)"
+        }
+      }
+    }
+  }
+}

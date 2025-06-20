@@ -1,0 +1,1281 @@
+# Template Slot Sensors für BibKat Dashboard
+# Diese Datei sollte in die configuration.yaml eingebunden werden:
+# template: !include custom_components/bibkat/template_slots_full.yaml
+
+- sensor:
+    # Slot 1
+    - name: "Bibliothek Slot 1"
+      unique_id: bibkat_book_slot_1
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[0].attributes.title if books[0] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[0] is defined %}
+          {% set days = books[0].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[0].entity_id if books[0] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[0].attributes.days_remaining if books[0] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[0].attributes.author if books[0] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[0].attributes.account_alias if books[0] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[0].attributes.is_renewable_now if books[0] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[0].attributes.due_date if books[0] is defined else '' }}
+    # Slot 2
+    - name: "Bibliothek Slot 2"
+      unique_id: bibkat_book_slot_2
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[1].attributes.title if books[1] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[1] is defined %}
+          {% set days = books[1].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[1].entity_id if books[1] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[1].attributes.days_remaining if books[1] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[1].attributes.author if books[1] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[1].attributes.account_alias if books[1] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[1].attributes.is_renewable_now if books[1] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[1].attributes.due_date if books[1] is defined else '' }}
+    # Slot 3
+    - name: "Bibliothek Slot 3"
+      unique_id: bibkat_book_slot_3
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[2].attributes.title if books[2] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[2] is defined %}
+          {% set days = books[2].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[2].entity_id if books[2] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[2].attributes.days_remaining if books[2] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[2].attributes.author if books[2] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[2].attributes.account_alias if books[2] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[2].attributes.is_renewable_now if books[2] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[2].attributes.due_date if books[2] is defined else '' }}
+    # Slot 4
+    - name: "Bibliothek Slot 4"
+      unique_id: bibkat_book_slot_4
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[3].attributes.title if books[3] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[3] is defined %}
+          {% set days = books[3].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[3].entity_id if books[3] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[3].attributes.days_remaining if books[3] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[3].attributes.author if books[3] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[3].attributes.account_alias if books[3] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[3].attributes.is_renewable_now if books[3] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[3].attributes.due_date if books[3] is defined else '' }}
+    # Slot 5
+    - name: "Bibliothek Slot 5"
+      unique_id: bibkat_book_slot_5
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[4].attributes.title if books[4] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[4] is defined %}
+          {% set days = books[4].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[4].entity_id if books[4] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[4].attributes.days_remaining if books[4] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[4].attributes.author if books[4] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[4].attributes.account_alias if books[4] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[4].attributes.is_renewable_now if books[4] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[4].attributes.due_date if books[4] is defined else '' }}
+    # Slot 6
+    - name: "Bibliothek Slot 6"
+      unique_id: bibkat_book_slot_6
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[5].attributes.title if books[5] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[5] is defined %}
+          {% set days = books[5].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[5].entity_id if books[5] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[5].attributes.days_remaining if books[5] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[5].attributes.author if books[5] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[5].attributes.account_alias if books[5] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[5].attributes.is_renewable_now if books[5] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[5].attributes.due_date if books[5] is defined else '' }}
+    # Slot 7
+    - name: "Bibliothek Slot 7"
+      unique_id: bibkat_book_slot_7
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[6].attributes.title if books[6] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[6] is defined %}
+          {% set days = books[6].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[6].entity_id if books[6] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[6].attributes.days_remaining if books[6] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[6].attributes.author if books[6] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[6].attributes.account_alias if books[6] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[6].attributes.is_renewable_now if books[6] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[6].attributes.due_date if books[6] is defined else '' }}
+    # Slot 8
+    - name: "Bibliothek Slot 8"
+      unique_id: bibkat_book_slot_8
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[7].attributes.title if books[7] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[7] is defined %}
+          {% set days = books[7].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[7].entity_id if books[7] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[7].attributes.days_remaining if books[7] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[7].attributes.author if books[7] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[7].attributes.account_alias if books[7] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[7].attributes.is_renewable_now if books[7] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[7].attributes.due_date if books[7] is defined else '' }}
+    # Slot 9
+    - name: "Bibliothek Slot 9"
+      unique_id: bibkat_book_slot_9
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[8].attributes.title if books[8] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[8] is defined %}
+          {% set days = books[8].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[8].entity_id if books[8] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[8].attributes.days_remaining if books[8] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[8].attributes.author if books[8] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[8].attributes.account_alias if books[8] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[8].attributes.is_renewable_now if books[8] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[8].attributes.due_date if books[8] is defined else '' }}
+    # Slot 10
+    - name: "Bibliothek Slot 10"
+      unique_id: bibkat_book_slot_10
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[9].attributes.title if books[9] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[9] is defined %}
+          {% set days = books[9].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[9].entity_id if books[9] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[9].attributes.days_remaining if books[9] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[9].attributes.author if books[9] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[9].attributes.account_alias if books[9] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[9].attributes.is_renewable_now if books[9] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[9].attributes.due_date if books[9] is defined else '' }}
+    # Slot 11
+    - name: "Bibliothek Slot 11"
+      unique_id: bibkat_book_slot_11
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[10].attributes.title if books[10] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[10] is defined %}
+          {% set days = books[10].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[10].entity_id if books[10] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[10].attributes.days_remaining if books[10] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[10].attributes.author if books[10] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[10].attributes.account_alias if books[10] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[10].attributes.is_renewable_now if books[10] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[10].attributes.due_date if books[10] is defined else '' }}
+    # Slot 12
+    - name: "Bibliothek Slot 12"
+      unique_id: bibkat_book_slot_12
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[11].attributes.title if books[11] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[11] is defined %}
+          {% set days = books[11].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[11].entity_id if books[11] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[11].attributes.days_remaining if books[11] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[11].attributes.author if books[11] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[11].attributes.account_alias if books[11] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[11].attributes.is_renewable_now if books[11] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[11].attributes.due_date if books[11] is defined else '' }}
+    # Slot 13
+    - name: "Bibliothek Slot 13"
+      unique_id: bibkat_book_slot_13
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[12].attributes.title if books[12] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[12] is defined %}
+          {% set days = books[12].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[12].entity_id if books[12] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[12].attributes.days_remaining if books[12] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[12].attributes.author if books[12] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[12].attributes.account_alias if books[12] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[12].attributes.is_renewable_now if books[12] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[12].attributes.due_date if books[12] is defined else '' }}
+    # Slot 14
+    - name: "Bibliothek Slot 14"
+      unique_id: bibkat_book_slot_14
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[13].attributes.title if books[13] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[13] is defined %}
+          {% set days = books[13].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[13].entity_id if books[13] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[13].attributes.days_remaining if books[13] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[13].attributes.author if books[13] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[13].attributes.account_alias if books[13] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[13].attributes.is_renewable_now if books[13] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[13].attributes.due_date if books[13] is defined else '' }}
+    # Slot 15
+    - name: "Bibliothek Slot 15"
+      unique_id: bibkat_book_slot_15
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[14].attributes.title if books[14] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[14] is defined %}
+          {% set days = books[14].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[14].entity_id if books[14] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[14].attributes.days_remaining if books[14] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[14].attributes.author if books[14] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[14].attributes.account_alias if books[14] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[14].attributes.is_renewable_now if books[14] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[14].attributes.due_date if books[14] is defined else '' }}
+    # Slot 16
+    - name: "Bibliothek Slot 16"
+      unique_id: bibkat_book_slot_16
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[15].attributes.title if books[15] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[15] is defined %}
+          {% set days = books[15].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[15].entity_id if books[15] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[15].attributes.days_remaining if books[15] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[15].attributes.author if books[15] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[15].attributes.account_alias if books[15] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[15].attributes.is_renewable_now if books[15] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[15].attributes.due_date if books[15] is defined else '' }}
+    # Slot 17
+    - name: "Bibliothek Slot 17"
+      unique_id: bibkat_book_slot_17
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[16].attributes.title if books[16] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[16] is defined %}
+          {% set days = books[16].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[16].entity_id if books[16] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[16].attributes.days_remaining if books[16] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[16].attributes.author if books[16] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[16].attributes.account_alias if books[16] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[16].attributes.is_renewable_now if books[16] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[16].attributes.due_date if books[16] is defined else '' }}
+    # Slot 18
+    - name: "Bibliothek Slot 18"
+      unique_id: bibkat_book_slot_18
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[17].attributes.title if books[17] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[17] is defined %}
+          {% set days = books[17].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[17].entity_id if books[17] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[17].attributes.days_remaining if books[17] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[17].attributes.author if books[17] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[17].attributes.account_alias if books[17] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[17].attributes.is_renewable_now if books[17] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[17].attributes.due_date if books[17] is defined else '' }}
+    # Slot 19
+    - name: "Bibliothek Slot 19"
+      unique_id: bibkat_book_slot_19
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[18].attributes.title if books[18] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[18] is defined %}
+          {% set days = books[18].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[18].entity_id if books[18] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[18].attributes.days_remaining if books[18] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[18].attributes.author if books[18] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[18].attributes.account_alias if books[18] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[18].attributes.is_renewable_now if books[18] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[18].attributes.due_date if books[18] is defined else '' }}
+    # Slot 20
+    - name: "Bibliothek Slot 20"
+      unique_id: bibkat_book_slot_20
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[19].attributes.title if books[19] is defined else 'Leer' }}
+      icon: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {% if books[19] is defined %}
+          {% set days = books[19].attributes.days_remaining %}
+          {% if days < 0 %}mdi:book-alert
+          {% elif days <= 3 %}mdi:book-clock
+          {% else %}mdi:book-check
+          {% endif %}
+        {% else %}mdi:book-off-outline
+        {% endif %}
+      attributes:
+        entity_id: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[19].entity_id if books[19] is defined else 'none' }}
+        days_remaining: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[19].attributes.days_remaining if books[19] is defined else 999 }}
+        author: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[19].attributes.author if books[19] is defined else '' }}
+        account: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[19].attributes.account_alias if books[19] is defined else '' }}
+        renewable: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[19].attributes.is_renewable_now if books[19] is defined else false }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[19].attributes.due_date if books[19] is defined else '' }}
+
+# Zusätzliche Template Sensoren für Statistiken
+- sensor:
+    - name: "Bibliothek Bücher Gesamt"
+      unique_id: bibkat_total_books
+      state: >
+        {{ states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | list | length }}
+      unit_of_measurement: "Bücher"
+      icon: mdi:bookshelf
+
+    - name: "Bibliothek Überfällige Bücher"
+      unique_id: bibkat_overdue_books
+      state: >
+        {{ states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | selectattr('attributes.days_remaining', 'lt', 0)
+           | list | length }}
+      unit_of_measurement: "Bücher"
+      icon: mdi:book-alert
+      attributes:
+        books: >
+          {{ states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | selectattr('attributes.days_remaining', 'lt', 0)
+             | map(attribute='attributes.title')
+             | list | join(', ') }}
+
+    - name: "Bibliothek Verlängerbare Bücher"
+      unique_id: bibkat_renewable_books
+      state: >
+        {{ states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | selectattr('attributes.is_renewable_now', 'eq', true)
+           | list | length }}
+      unit_of_measurement: "Bücher"
+      icon: mdi:book-refresh
+      attributes:
+        books: >
+          {{ states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | selectattr('attributes.is_renewable_now', 'eq', true)
+             | map(attribute='attributes.title')
+             | list | join(', ') }}
+
+    - name: "Bibliothek Nächste Rückgabe"
+      unique_id: bibkat_next_due
+      state: >
+        {% set books = states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | sort(attribute='attributes.days_remaining') | list %}
+        {{ books[0].attributes.days_remaining if books[0] is defined else 999 }}
+      unit_of_measurement: "Tage"
+      icon: mdi:calendar-clock
+      attributes:
+        title: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[0].attributes.title if books[0] is defined else 'Keine Bücher' }}
+        due_date: >
+          {% set books = states.button 
+             | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+             | rejectattr('attributes.media_id', 'undefined')
+             | sort(attribute='attributes.days_remaining') | list %}
+          {{ books[0].attributes.due_date if books[0] is defined else '' }}
+
+# Binary Sensors für bedingte Anzeige
+- binary_sensor:
+    - name: "Bibliothek Hat Überfällige"
+      unique_id: bibkat_has_overdue
+      state: >
+        {{ states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | selectattr('attributes.days_remaining', 'lt', 0)
+           | list | length > 0 }}
+      icon: mdi:alert-circle
+
+    - name: "Bibliothek Hat Verlängerbare"
+      unique_id: bibkat_has_renewable
+      state: >
+        {{ states.button 
+           | selectattr('entity_id', 'match', 'button.bibkat_.*') 
+           | rejectattr('attributes.media_id', 'undefined')
+           | selectattr('attributes.is_renewable_now', 'eq', true)
+           | list | length > 0 }}
+      icon: mdi:refresh

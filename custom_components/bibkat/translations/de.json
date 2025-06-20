@@ -1,0 +1,201 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Bibliothek auswählen",
+        "description": "Geben Sie die URL Ihrer BibKat-Bibliothek ein.\\n\\n{bibkat_info}\\n\\n{example_urls}",
+        "data": {
+          "url": "Bibliotheks-URL"
+        },
+        "data_description": {
+          "url": "z.B. https://www.bibkat.de/boehl/ oder https://www.bibkat.de/kreuth/"
+        }
+      },
+      "account": {
+        "title": "Konto {account_number} hinzufügen",
+        "description": "Geben Sie die Zugangsdaten für {library_name} ein.",
+        "data": {
+          "username": "Lesernummer",
+          "password": "Passwort",
+          "alias": "Kontobezeichnung (optional)",
+          "add_another_account": "Weiteres Konto hinzufügen"
+        },
+        "data_description": {
+          "alias": "z.B. Hauptkonto, Kinderkonto, etc."
+        }
+      },
+      "features": {
+        "title": "Zusätzliche Funktionen",
+        "description": "Wählen Sie, welche zusätzlichen Funktionen eingerichtet werden sollen.\n\n{template_info}\n\n{dashboard_info}\n\n**Hinweis**: {template_note}\n\n{dashboard_note}",
+        "data": {
+          "template_sensors": "Template-Sensoren erstellen",
+          "dashboard": "Discovery Dashboard erstellen"
+        },
+        "data_description": {
+          "template_sensors": "30 Slot-Sensoren für erweiterte Dashboards",
+          "dashboard": "Vorkonfiguriertes Dashboard mit allen Medien"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen",
+      "invalid_auth": "Ungültige Anmeldedaten",
+      "invalid_url": "Ungültige URL - muss eine bibkat.de Adresse sein",
+      "unknown": "Unerwarteter Fehler",
+      "already_configured": "Diese Bibliothek ist bereits konfiguriert",
+      "template_creation_failed": "Template-Sensoren konnten nicht erstellt werden",
+      "dashboard_creation_failed": "Dashboard konnte nicht erstellt werden"
+    },
+    "abort": {
+      "already_configured": "Diese Bibliothek ist bereits konfiguriert"
+    }
+  },
+  "options": {
+    "step": {
+      "menu": {
+        "title": "BibKat Einstellungen",
+        "description": "Was möchten Sie konfigurieren?",
+        "menu_options": {
+          "accounts": "Konten verwalten",
+          "notifications": "Benachrichtigungen",
+          "features": "Zusätzliche Funktionen"
+        }
+      },
+      "accounts": {
+        "title": "Konten verwalten",
+        "description": "{info}",
+        "data": {
+          "selected_account": "Familienkonto auswählen"
+        },
+        "data_description": {
+          "no_unconfigured": "Keine unconfigurierten Familienkonten gefunden. Alle Familienmitglieder sind bereits konfiguriert.",
+          "select_prompt": "Wählen Sie ein Familienkonto aus, um Anmeldedaten hinzuzufügen:",
+          "none_option": "Kein Konto hinzufügen",
+          "account_label": "{alias} ({account_id}) - {media_count} Medien, {reservation_count} Vormerkungen"
+        }
+      },
+      "add_credentials": {
+        "title": "Anmeldedaten hinzufügen",
+        "description": "{info}",
+        "data": {
+          "password": "Passwort",
+          "alias": "Kontobezeichnung (optional)"
+        },
+        "data_description": {
+          "prompt": "Geben Sie das Passwort für Konto {account} ein:",
+          "success": "Konto {username} ({alias}) erfolgreich hinzugefügt!",
+          "default_alias": "Leser {account}"
+        }
+      },
+      "notifications": {
+        "title": "Benachrichtigungseinstellungen",
+        "description": "Konfigurieren Sie, wann und wie Sie benachrichtigt werden möchten.",
+        "data": {
+          "notification_service": "Benachrichtigungsdienst",
+          "due_soon_days": "Tage vor Fälligkeit für Erinnerung",
+          "notify_overdue": "Bei überfälligen Medien benachrichtigen",
+          "notify_renewal": "Bei Verlängerungsergebnissen benachrichtigen",
+          "notify_high_balance": "Bei hohem Kontostand benachrichtigen",
+          "balance_threshold": "Kontostand-Schwellenwert (EUR)",
+          "use_browser": "Browser-basierte Extraktion verwenden"
+        }
+      },
+      "features": {
+        "title": "Zusätzliche Funktionen",
+        "description": "{template_status}\n\nWählen Sie, welche zusätzlichen Funktionen eingerichtet werden sollen.\n\n{template_info}\n\n{dashboard_info}\n\n**Hinweis**: {template_note}\n\n{dashboard_note}",
+        "data": {
+          "template_sensors": "Template-Sensoren erstellen",
+          "dashboard": "Discovery Dashboard erstellen"
+        },
+        "data_description": {
+          "template_sensors": "30 Slot-Sensoren für erweiterte Dashboards",
+          "dashboard": "Vorkonfiguriertes Dashboard mit allen Medien"
+        }
+      }
+    },
+    "error": {
+      "template_creation_failed": "Template-Sensoren konnten nicht erstellt werden",
+      "dashboard_creation_failed": "Dashboard konnte nicht erstellt werden"
+    }
+  },
+  "device": {
+    "library": "Bibliothek",
+    "library_account": "Bibliothekskonto", 
+    "family_account": "Familienkonto",
+    "family_members": "Familienmitglieder"
+  },
+  "entity": {
+    "sensor": {
+      "borrowed_media": {
+        "name": "Ausgeliehene Medien"
+      },
+      "balance": {
+        "name": "Kontostand"
+      },
+      "all_borrowed_media": {
+        "name": "Alle ausgeliehenen Medien"
+      },
+      "reservations": {
+        "name": "Vormerkungen"
+      },
+      "account_reservations": {
+        "name": "{account} Vormerkungen"
+      },
+      "unconfigured_account": {
+        "name": "{account} Ausgeliehene Medien"
+      }
+    }
+  },
+  "notifications": {
+    "renewal_success": "Medium '{title}' wurde verlängert bis {due_date}",
+    "renewal_failed": "Medium '{title}' konnte nicht verlängert werden: {message}",
+    "renewal_unknown_error": "Unbekannter Fehler",
+    "renewal_title": "Bibliothek Verlängerung",
+    "test_no_service": "Keine Benachrichtigungsdienst konfiguriert für diese Bibliothek",
+    "test_title": "BibKat Test-Benachrichtigung",
+    "cannot_renew": "'{title}' kann noch nicht verlängert werden.",
+    "renewable_from": "Verlängerbar ab: {date}",
+    "renewable_in_days": " (in {days} Tagen)",
+    "cannot_renew_title": "BibKat - Verlängerung noch nicht möglich",
+    "all_renewed": "Alle {count} Medien erfolgreich verlängert",
+    "some_renewed": "{renewed} Medien verlängert, {failed} fehlgeschlagen",
+    "all_failed": "Verlängerung fehlgeschlagen für {failed} Medien",
+    "no_renewable": "Keine verlängerbaren Medien gefunden"
+  },
+  "services": {
+    "renew_all": {
+      "name": "Alle Medien verlängern",
+      "description": "Verlängert alle verlängerbaren Medien",
+      "fields": {
+        "account_id": {
+          "name": "Konto-ID",
+          "description": "Optionale Konto-ID für gezieltes Verlängern (leer für alle Konten)"
+        }
+      }
+    },
+    "renew_media": {
+      "name": "Medium verlängern",
+      "description": "Verlängert ein einzelnes Medium",
+      "fields": {
+        "media_id": {
+          "name": "Medien-ID",
+          "description": "Die ID des zu verlängernden Mediums"
+        },
+        "account_id": {
+          "name": "Konto-ID",
+          "description": "Konto-ID des Mediums (optional, wenn eindeutig)"
+        }
+      }
+    },
+    "test_notification": {
+      "name": "Test-Benachrichtigung senden",
+      "description": "Sendet eine Test-Benachrichtigung für die konfigurierte Bibliothek",
+      "fields": {
+        "library_url": {
+          "name": "Bibliotheks-URL",
+          "description": "Optionale Bibliotheks-URL (verwendet erste konfigurierte, wenn leer)"
+        }
+      }
+    }
+  }
+}

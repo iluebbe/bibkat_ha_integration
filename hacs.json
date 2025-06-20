@@ -1,0 +1,10 @@
+{
+  "name": "BibKat Bibliothek",
+  "content_in_root": false,
+  "render_readme": true,
+  "domains": ["sensor", "button", "calendar"],
+  "homeassistant": "2024.1.0",
+  "country": ["DE", "AT", "CH"],
+  "zip_release": true,
+  "filename": "bibkat.zip"
+}
