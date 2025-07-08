@@ -4,11 +4,14 @@
 
 ### 🐛 Behoben
 - **Verlängerungsfunktion repariert** - Anpassung an neue BibKat API (2025)
-  - Neue API-Endpoint-Struktur `/BGX******/api/renew/` implementiert
-  - Automatische Erkennung des Bibliotheks-Catalog-Codes
-  - Zweistufiger Verlängerungsprozess (Modal-Abruf, dann Verlängerung)
+  - Neue API-URL: `https://www.bibkat.de/{CATALOG_CODE}/api/renew/`
+  - Automatische Erkennung des Bibliotheks-Catalog-Codes (z.B. BGX570083 für Böhl)
+  - Funktioniert mit ALLEN BibKat-Bibliotheken durch dynamische Code-Ermittlung
+  - Zweistufiger Verlängerungsprozess: GET (Modal) → POST (Bestätigung)
+  - Alte URL `/reader/renew/` funktioniert nicht mehr (404)
 - **Media-ID Extraktion verbessert** - Korrekte Erkennung aus `data-id` Attributen
 - **Verlängerbare Medien** - Werden jetzt korrekt als `is_renewable_now` markiert
+- **NoneType Error behoben** - Coordinator prüft jetzt auf None-Werte
 
 ### 🔧 Technische Verbesserungen
 - Debug-Logging für API-Aufrufe erweitert
