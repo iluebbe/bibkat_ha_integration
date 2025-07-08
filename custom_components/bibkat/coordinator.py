@@ -322,34 +322,42 @@ class BibKatMultiAccountCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
                         if media_id:
                             _LOGGER.debug(f"Checking renewal date for non-renewable item: {media.get('title', 'Unknown')}")
                             
-                            # Use the renew method to get the date from error message
+                            # Use the API directly to get renewal date
                             try:
-                                result = await self.async_renew_media(media_id)
-                                if result and not result.get("success") and result.get("renewal_date_iso"):
-                                    renewal_date = result.get("renewal_date", "")
-                                    renewal_date_iso = result["renewal_date_iso"]
-                                    
-                                    # Update this media item
-                                    media["renewal_date"] = renewal_date
-                                    media["renewal_date_iso"] = renewal_date_iso
-                                    
-                                    # Propagate to all media items with the same ID
-                                    for acc_data in all_data["accounts"].values():
-                                        for m in acc_data.get("borrowed_media", []):
+                                # Find the correct API for this media
+                                api = None
+                                for acc_id, acc_data in all_data["accounts"].items():
+                                    if any(m.get("media_id") == media_id for m in acc_data.get("borrowed_media", [])):
+                                        api = self.apis.get(acc_id)
+                                        break
+                                
+                                if api:
+                                    result = await api.renew_media(media_id)
+                                    if result and not result.get("success") and result.get("renewal_date_iso"):
+                                        renewal_date = result.get("renewal_date", "")
+                                        renewal_date_iso = result["renewal_date_iso"]
+                                        
+                                        # Update this media item
+                                        media["renewal_date"] = renewal_date
+                                        media["renewal_date_iso"] = renewal_date_iso
+                                        
+                                        # Propagate to all media items with the same ID
+                                        for acc_data in all_data["accounts"].values():
+                                            for m in acc_data.get("borrowed_media", []):
+                                                if m.get("media_id") == media_id:
+                                                    m["renewal_date"] = renewal_date
+                                                    m["renewal_date_iso"] = renewal_date_iso
+                                        
+                                        # Also update in all_media list
+                                        for m in all_data["all_media"]:
                                             if m.get("media_id") == media_id:
                                                 m["renewal_date"] = renewal_date
                                                 m["renewal_date_iso"] = renewal_date_iso
-                                    
-                                    # Also update in all_media list
-                                    for m in all_data["all_media"]:
-                                        if m.get("media_id") == media_id:
-                                            m["renewal_date"] = renewal_date
-                                            m["renewal_date_iso"] = renewal_date_iso
-                                    
-                                    _LOGGER.info(
-                                        f"Got renewal date for {media.get('title', 'Unknown')}: "
-                                        f"{media['renewal_date']} (propagated to all instances)"
-                                    )
+                                        
+                                        _LOGGER.info(
+                                            f"Got renewal date for {media.get('title', 'Unknown')}: "
+                                            f"{media['renewal_date']} (propagated to all instances)"
+                                        )
                                     
                                 # Small delay to avoid rate limiting
                                 await asyncio.sleep(random.uniform(0.5, 1.5))
@@ -458,6 +466,11 @@ class BibKatMultiAccountCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
         # Find the media item in our data
         media_found = None
         owner_account_id = None
+        
+        # Make sure we have data
+        if not self.data:
+            result["message"] = "Keine Daten verfügbar"
+            return result
         
         for acc_id, account_data in self.data.get("accounts", {}).items():
             for media in account_data.get("borrowed_media", []):
