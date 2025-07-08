@@ -325,7 +325,7 @@ class BibKatMultiAccountCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
                             # Use the renew method to get the date from error message
                             try:
                                 result = await self.async_renew_media(media_id)
-                                if not result.get("success") and result.get("renewal_date_iso"):
+                                if result and not result.get("success") and result.get("renewal_date_iso"):
                                     renewal_date = result.get("renewal_date", "")
                                     renewal_date_iso = result["renewal_date_iso"]
                                     
