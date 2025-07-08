@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 [![Community](https://img.shields.io/badge/Community-Forum-blue?style=for-the-badge)](https://community.home-assistant.io/)
 
-Eine professionelle Home Assistant Integration für BibKat Bibliotheken mit Multi-Account-Support, automatischen Benachrichtigungen und Actionable Notifications. Unterstützt alle BibKat-Bibliotheken deutschlandweit.
+Eine Home Assistant Integration für BibKat Bibliotheken mit Multi-Account-Support, automatischen Benachrichtigungen und Actionable Notifications. Unterstützt alle BibKat-Bibliotheken deutschlandweit.
 
 ## 🌟 Features
 
