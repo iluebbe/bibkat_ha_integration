@@ -790,6 +790,13 @@ class BibKatAPI(ReservationsMixin):
             # Try to extract the renewal date
             date_result = await self._extract_renewal_date(media_id)
             
+            # Make sure date_result is not None
+            if date_result is None:
+                date_result = {
+                    'success': False,
+                    'message': 'Fehler bei der Datumsextraktion'
+                }
+            
             # Convert the result to match expected format
             if date_result.get('success'):
                 return {
@@ -839,14 +846,14 @@ class BibKatAPI(ReservationsMixin):
         
         # If we have a catalog code, use it in the URL
         if self._catalog_code:
-            # Remove any trailing slash from base_url and construct the proper API URL
-            base = self.base_url.rstrip('/')
-            if base.endswith('/reader'):
-                base = base.rsplit('/reader', 1)[0]
-            api_url = f"{base}/{self._catalog_code}/api/renew/"
+            # The API URL pattern is: https://www.bibkat.de/{CATALOG_CODE}/api/renew/
+            # We need to use the base domain, not the library-specific URL
+            api_url = f"https://www.bibkat.de/{self._catalog_code}/api/renew/"
+            _LOGGER.info(f"Using catalog-based API URL: {api_url}")
         else:
             # Fallback to standard API URL
             api_url = f"{self.base_url}api/renew/"
+            _LOGGER.warning("No catalog code found, using fallback URL")
         
         _LOGGER.debug(f"Using API URL: {api_url}")
         
@@ -863,9 +870,16 @@ class BibKatAPI(ReservationsMixin):
         try:
             # Step 1: GET request to get the modal content
             _LOGGER.debug(f"Step 1: Getting renewal modal from {api_url} for media {clean_media_id}")
+            _LOGGER.debug(f"Request params: {params}")
+            _LOGGER.debug(f"Request headers: {headers}")
+            
             async with self._session.get(api_url, params=params, headers=headers) as response:
                 if response.status != 200:
+                    response_text = await response.text()
                     _LOGGER.warning(f"Failed to get renewal modal: status {response.status}")
+                    _LOGGER.warning(f"Response headers: {response.headers}")
+                    _LOGGER.warning(f"Response text (first 500 chars): {response_text[:500] if response_text else 'No response text'}")
+                    _LOGGER.warning(f"Full URL attempted: {response.url}")
                     return {'success': False, 'message': 'Fehler beim Abrufen des Verlängerungsdialogs'}
                 
                 data = await response.json()
@@ -924,8 +938,9 @@ class BibKatAPI(ReservationsMixin):
 
     async def _extract_renewal_date(self, media_id: str) -> Dict[str, Any]:
         """Extract the renewal date for a media item (when renewal is not yet possible)."""
-        clean_media_id = media_id.replace('media-', '')
-        _LOGGER.debug(f"Attempting to extract renewal date for media ID: {clean_media_id}")
+        try:
+            clean_media_id = media_id.replace('media-', '')
+            _LOGGER.debug(f"Attempting to extract renewal date for media ID: {clean_media_id}")
 
         # Method 1: Browser extraction (if enabled) - PRIMARY METHOD
         if self.use_browser:

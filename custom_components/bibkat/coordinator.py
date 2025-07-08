@@ -354,7 +354,7 @@ class BibKatMultiAccountCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
                                 # Small delay to avoid rate limiting
                                 await asyncio.sleep(random.uniform(0.5, 1.5))
                             except Exception as e:
-                                _LOGGER.error(f"Error getting renewal date for {media_id}: {e}")
+                                _LOGGER.error(f"Error getting renewal date for {media_id}: {e}", exc_info=True)
         
         _LOGGER.info(
             f"Coordinator update complete: Total {all_data['total_borrowed']} media items, "
