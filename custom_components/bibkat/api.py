@@ -286,6 +286,8 @@ class BibKatAPI(ReservationsMixin):
                 return media_list
                 
             text: str = await response.text()
+            # Store the page content for catalog code extraction
+            self._last_page_content = text
             soup: BeautifulSoup = BeautifulSoup(text, 'html.parser')
             
             # For family page, try to extract current account context
@@ -813,8 +815,41 @@ class BibKatAPI(ReservationsMixin):
         _LOGGER.debug(f"Attempting actual renewal for media ID: {clean_media_id}")
 
         # Step 1: Get the modal content with the renewal confirmation
-        # This uses the new API endpoint found in testing
+        # The API might use a different base URL structure
+        # First, let's log what we have
+        _LOGGER.debug(f"Current base_url: {self.base_url}")
+        _LOGGER.debug(f"Current family_url: {self.family_url}")
+        
+        # Try to extract the catalog code from the page if needed
+        # The URL pattern seems to be /CATALOG_CODE/api/renew/
         api_url = f"{self.base_url}api/renew/"
+        
+        # Check if we need to get a catalog code first
+        if not hasattr(self, '_catalog_code'):
+            self._catalog_code = None
+            # Try to find it from the current page content we already have
+            if hasattr(self, '_last_page_content') and self._last_page_content:
+                # Look for the catalog code in JavaScript onclick handlers
+                # Pattern: BGX followed by 6 digits
+                import re
+                match = re.search(r'BGX\d{6}', self._last_page_content)
+                if match:
+                    self._catalog_code = match.group(0)
+                    _LOGGER.info(f"Found catalog code from page content: {self._catalog_code}")
+        
+        # If we have a catalog code, use it in the URL
+        if self._catalog_code:
+            # Remove any trailing slash from base_url and construct the proper API URL
+            base = self.base_url.rstrip('/')
+            if base.endswith('/reader'):
+                base = base.rsplit('/reader', 1)[0]
+            api_url = f"{base}/{self._catalog_code}/api/renew/"
+        else:
+            # Fallback to standard API URL
+            api_url = f"{self.base_url}api/renew/"
+        
+        _LOGGER.debug(f"Using API URL: {api_url}")
+        
         params = {
             'payload': clean_media_id,
             '_': str(int(datetime.now().timestamp() * 1000))  # Timestamp
