@@ -938,9 +938,8 @@ class BibKatAPI(ReservationsMixin):
 
     async def _extract_renewal_date(self, media_id: str) -> Dict[str, Any]:
         """Extract the renewal date for a media item (when renewal is not yet possible)."""
-        try:
-            clean_media_id = media_id.replace('media-', '')
-            _LOGGER.debug(f"Attempting to extract renewal date for media ID: {clean_media_id}")
+        clean_media_id = media_id.replace('media-', '')
+        _LOGGER.debug(f"Attempting to extract renewal date for media ID: {clean_media_id}")
 
         # Method 1: Browser extraction (if enabled) - PRIMARY METHOD
         if self.use_browser:
