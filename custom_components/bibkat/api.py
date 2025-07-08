@@ -519,8 +519,21 @@ class BibKatAPI(ReservationsMixin):
                 if renew_action:
                     media_info['renewable'] = True
                     # Try to extract media ID from the renew action if we don't have it yet
-                    if not media_info['media_id'] and renew_action.get('data-media-id'):
-                        media_info['media_id'] = renew_action.get('data-media-id')
+                    if not media_info['media_id']:
+                        # Look for data-media-id attribute
+                        if renew_action.get('data-media-id'):
+                            media_info['media_id'] = renew_action.get('data-media-id')
+                        # Or try to extract from onclick or other attributes
+                        elif renew_action.get('onclick'):
+                            onclick = renew_action.get('onclick')
+                            # Look for patterns like renewMedia('12345')
+                            match = re.search(r"['\"](\d+)['\"]", onclick)
+                            if match:
+                                media_info['media_id'] = match.group(1)
+                    
+                    # Mark as renewable now if we found the action
+                    # (the new interface only shows the button when renewable)
+                    media_info['is_renewable_now'] = True
 
             # If still no media_id, generate one from title and author
             if not media_info['media_id'] and media_info['title']:
@@ -796,75 +809,83 @@ class BibKatAPI(ReservationsMixin):
         
     async def _renew_single_media(self, media_id: str) -> Dict[str, Any]:
         """Actually renew a single media item (when renewal is possible)."""
-        if not self.csrf_token:
-            _LOGGER.error("Renewal failed: No CSRF Token available.")
-            return {'success': False, 'message': 'Kein CSRF Token'}
-
         clean_media_id = media_id.replace('media-', '')
         _LOGGER.debug(f"Attempting actual renewal for media ID: {clean_media_id}")
 
-        # Try AJAX renewal first (modern method)
-        ajax_url = f"{self.base_url}reader/renew/"
-        headers_ajax = {
-            'X-CSRFToken': self.csrf_token,
+        # Step 1: Get the modal content with the renewal confirmation
+        # This uses the new API endpoint found in testing
+        api_url = f"{self.base_url}api/renew/"
+        params = {
+            'payload': clean_media_id,
+            '_': str(int(datetime.now().timestamp() * 1000))  # Timestamp
+        }
+        
+        headers = {
             'X-Requested-With': 'XMLHttpRequest',
             'Referer': self.family_url,
-            'Content-Type': 'application/json',
-        }
-        ajax_data = {
-            'media_id': clean_media_id,
-            'csrfmiddlewaretoken': self.csrf_token,
         }
 
         try:
-            _LOGGER.debug(f"Trying AJAX renewal to {ajax_url} for media {clean_media_id}")
-            async with self._session.post(ajax_url, json=ajax_data, headers=headers_ajax) as response:
-                content_type = response.headers.get('content-type', '')
-                if response.status == 200 and 'application/json' in content_type:
-                    data = await response.json()
-                    _LOGGER.debug(f"AJAX renewal response for {clean_media_id}: {data}")
-                    return data
-                else:
-                    _LOGGER.warning(f"AJAX renewal failed with status {response.status}")
-        except Exception as e:
-            _LOGGER.error(f"AJAX renewal failed for media {clean_media_id}: {e}")
-
-        # Fallback: Try form-based renewal
-        form_url = f"{self.base_url}reader/"
-        form_data = {
-            'csrfmiddlewaretoken': self.csrf_token,
-            'volumeNumbersToRenew[]': clean_media_id,
-            'action': 'renewvolumes',
-        }
-        headers_form = {
-            'Referer': form_url,
-            'Origin': self.base_url.rstrip('/'),
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-
-        try:
-            _LOGGER.debug(f"Trying form-based renewal for media {clean_media_id}")
-            async with self._session.post(form_url, data=form_data, headers=headers_form) as response:
+            # Step 1: GET request to get the modal content
+            _LOGGER.debug(f"Step 1: Getting renewal modal from {api_url} for media {clean_media_id}")
+            async with self._session.get(api_url, params=params, headers=headers) as response:
+                if response.status != 200:
+                    _LOGGER.warning(f"Failed to get renewal modal: status {response.status}")
+                    return {'success': False, 'message': 'Fehler beim Abrufen des Verlängerungsdialogs'}
+                
+                data = await response.json()
+                _LOGGER.debug(f"Modal response: {data}")
+                
+                if not data.get('meta', {}).get('success'):
+                    return {'success': False, 'message': 'Verlängerung fehlgeschlagen'}
+                
+                # Check if we got the renewal action in the response
+                actions = data.get('data', {}).get('actions', [])
+                renew_action = None
+                for action in actions:
+                    if action.get('function') == 'renew' and action.get('method') == 'POST':
+                        renew_action = action
+                        break
+                
+                if not renew_action:
+                    _LOGGER.warning("No renewal action found in modal response")
+                    return {'success': False, 'message': 'Keine Verlängerungsaktion gefunden'}
+                
+            # Step 2: POST request to actually renew
+            _LOGGER.debug(f"Step 2: Executing renewal POST for media {clean_media_id}")
+            
+            # The POST uses the same URL but with POST method
+            post_data = {
+                'payload': clean_media_id,
+            }
+            
+            # Add CSRF token if available
+            if self.csrf_token:
+                headers['X-CSRFToken'] = self.csrf_token
+                post_data['csrfmiddlewaretoken'] = self.csrf_token
+            
+            async with self._session.post(api_url, data=post_data, headers=headers) as response:
                 if response.status == 200:
-                    text = await response.text()
-                    soup = BeautifulSoup(text, 'html.parser')
+                    post_result = await response.json()
+                    _LOGGER.debug(f"Renewal POST response: {post_result}")
                     
-                    # Check for success message
-                    if soup.find(class_='alert-success'):
-                        return {'success': True, 'message': 'Medium erfolgreich verlängert'}
+                    if post_result.get('meta', {}).get('success'):
+                        return {
+                            'success': True,
+                            'message': 'Medium erfolgreich verlängert'
+                        }
+                    else:
+                        return {
+                            'success': False,
+                            'message': post_result.get('data', {}).get('message', 'Verlängerung fehlgeschlagen')
+                        }
+                else:
+                    _LOGGER.warning(f"Renewal POST failed with status {response.status}")
+                    return {'success': False, 'message': f'Verlängerung fehlgeschlagen (Status {response.status})'}
                     
-                    # Extract error message
-                    error_alert = soup.find(class_=re.compile(r'alert-(danger|warning|info)'))
-                    if error_alert:
-                        return {'success': False, 'message': error_alert.get_text(strip=True)}
         except Exception as e:
-            _LOGGER.error(f"Form-based renewal failed for media {clean_media_id}: {e}")
-
-        return {
-            'success': False,
-            'message': 'Verlängerung fehlgeschlagen',
-            'note': 'Weder AJAX noch Form-basierte Verlängerung war erfolgreich'
-        }
+            _LOGGER.error(f"Renewal failed for media {clean_media_id}: {e}")
+            return {'success': False, 'message': f'Fehler bei der Verlängerung: {str(e)}'}
 
     async def _extract_renewal_date(self, media_id: str) -> Dict[str, Any]:
         """Extract the renewal date for a media item (when renewal is not yet possible)."""
