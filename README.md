@@ -25,6 +25,7 @@ Eine Home Assistant Integration für BibKat Bibliotheken mit Multi-Account-Suppo
 ✅ **Familienkonten** - Automatische Erkennung verknüpfter Konten  
 ✅ **Externe Familienmitglieder** - Bücher von nicht konfigurierten Konten  
 ✅ **Auto-Update Verlängerungsdatum** - Bei jedem Verlängerungsversuch  
+✅ **Neue BibKat API Unterstützung** - Kompatibel mit aktuellem BibKat System (2025)  
 
 ### Benachrichtigungen & Aktionen
 ✅ **Actionable Notifications** - Verlängern direkt aus der Benachrichtigung!  

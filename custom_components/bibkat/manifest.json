@@ -1,7 +1,7 @@
 {
   "domain": "bibkat",
   "name": "BibKat Bibliothek",
-  "version": "0.5.0",
+  "version": "0.8.0",
   "documentation": "https://github.com/iluebbe/bibkat_ha_integration",
   "issue_tracker": "https://github.com/iluebbe/bibkat_ha_integration/issues",
   "requirements": ["beautifulsoup4==4.13.0", "aiofiles==24.1.0"],

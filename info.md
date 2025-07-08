@@ -1,7 +1,7 @@
 # BibKat Bibliothek Integration
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
-[![Version](https://img.shields.io/badge/Version-0.5.0-blue.svg)](https://github.com/iluebbe/bibkat_ha_integration)
+[![Version](https://img.shields.io/badge/Version-0.8.0-blue.svg)](https://github.com/iluebbe/bibkat_ha_integration)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 Eine professionelle Home Assistant Integration für BibKat Bibliotheken mit Multi-Account-Support, automatischen Benachrichtigungen und Actionable Notifications.
@@ -79,15 +79,20 @@ Bei Problemen:
 
 ## 📝 Changelog
 
-### v0.5.0 (2025-06-18)
-- NEU: Jedes Buch als eigene Button Entity
-- NEU: Discovery Dashboard mit Template-Sensoren
-- Verbesserte Verlängerungsfunktion
+### v0.8.0 (2025-01-20)
+- FIX: Verlängerungsfunktion an neue BibKat API angepasst
+- NEU: Automatische Catalog-Code-Erkennung
+- Verbesserte Fehlerbehandlung und Debug-Logging
 
-### v0.3.0 (2025-06-18)
-- Multi-Account Support
-- Actionable Notifications
-- Kalender Integration
+### v0.7.0 (2025-01-19)
+- NEU: Discovery Dashboard mit auto-generierten Template-Sensoren
+- NEU: Config Flow Integration für Template-Sensoren
+- FIX: Support für verschiedene YAML-Include-Formate
+
+### v0.5.0 (2025-01-18)
+- NEU: Vollständige Familien-Unterstützung
+- NEU: Button Entity für jedes Buch
+- NEU: Browser-basierte Verlängerungsdatum-Extraktion
 
 ---
 
